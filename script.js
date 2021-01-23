@@ -17,7 +17,10 @@ var game = {
 var c = canvas.getContext('2d');
 c.imageSmoothingEnabled = false;
 
-var mouse;
+var mouse = {
+    x:0,
+    y:0
+};
 
 var player;
 
@@ -25,8 +28,8 @@ var playerImg1 = new Image();
 
 function init(){
     player = {
-        x:200,
-        y:250
+        x:240-7,
+        y:135-10   
     }
 };
 
@@ -40,6 +43,15 @@ window.addEventListener("mousemove",function(event){
 window.addEventListener("click", function(){
     canvas.requestFullscreen();
 });
+
+window.addEventListener("keydown", function(event){
+    console.log(event)
+});
+window.addEventListener("keyup",function(event){
+
+})
+
+
 
 window.addEventListener("resize",function(){
     canvas.width  = window.innerWidth;
@@ -60,6 +72,8 @@ window.addEventListener("resize",function(){
 });
 
 
+
+
 function update(){
     requestAnimationFrame(update)
     c.clearRect(0,0,canvas.width,canvas.height)   
@@ -68,8 +82,6 @@ function update(){
     c.fillRect(0,0,canvas.width,canvas.height)   
 
     animatePlayer();
-
-
 
 };
 
@@ -80,7 +92,7 @@ function animatePlayer(){
         playerImg1.src = 'Images/Player/body/standing.png';
     }
 
-    let point = findNewPoint(player.x*game.size.canvasMultiplyer.x+(15*game.size.canvasMultiplyer.x)/2, player.y*game.size.canvasMultiplyer.y+(20*game.size.canvasMultiplyer.y)/2, angle(player.x*game.size.canvasMultiplyer.x+(15*game.size.canvasMultiplyer.x)/2, player.y*game.size.canvasMultiplyer.y+(20*game.size.canvasMultiplyer.y)/2,mouse.x, mouse.y), (20*game.size.canvasMultiplyer.y+15*game.size.canvasMultiplyer.x)/3)
+    let point = findNewPoint(player.x*game.size.canvasMultiplyer.x+(15*game.size.canvasMultiplyer.x)/2, player.y*game.size.canvasMultiplyer.y+(20*game.size.canvasMultiplyer.y)/2, angle(player.x*game.size.canvasMultiplyer.x+(15*game.size.canvasMultiplyer.x)/2, player.y*game.size.canvasMultiplyer.y+(20*game.size.canvasMultiplyer.y)/2,mouse.x, mouse.y), 7*game.size.canvasMultiplyer.x)
 
     c.beginPath();
     c.moveTo(player.x*game.size.canvasMultiplyer.x+(15*game.size.canvasMultiplyer.x)/2, player.y*game.size.canvasMultiplyer.y+(20*game.size.canvasMultiplyer.y)/2);
@@ -99,8 +111,8 @@ function animatePlayer(){
 function angle(cx, cy, ex, ey) {
     var dy = ey - cy;
     var dx = ex - cx;
-    var theta = Math.atan2(dy, dx); // range (-PI, PI]
-    theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+    var theta = Math.atan2(dy, dx);
+    theta *= 180 / Math.PI;
     return theta;
 }
 function findNewPoint(x, y, angle, distance) {
